@@ -1,54 +1,4 @@
-import subprocess
-import pprint
-
-
-class MemoryUsage(object):
-    def __init__(self, mtotal, mused, mfree):
-        if not (isinstance(mtotal, int) or isinstance(mused, int) or isinstance(mfree, int)):
-            raise ValueError('Inputs must be numeric ints')
-        self.total = mtotal
-        self.used = mused
-        self.free = mfree
-        self.percentage = float(mused) / float(mtotal) * 100.0
-        return
-
-
-class Process(object):
-    def __init__(self, pid, ptype, pname, pused):
-        if not (isinstance(pid, int) or isinstance(pused, int)):
-            raise ValueError('Inputs must be numeric ints')
-        if not (isinstance(ptype, str) or isinstance(pname, str)):
-            raise ValueError('Inputs must be numeric strings')
-
-        self.pid = pid
-        self.type = ptype
-        self.name = pname
-        self.used = pused
-        return
-
-
-class GPUInfo(object):
-    def __init__(self, index, name, uuid, utilization, memory_info, process_info):
-        if not isinstance(memory_info, MemoryUsage):
-            raise ValueError('memory_info must be MemoryUsage class!!')
-        if not isinstance(process_info, Process):
-            raise ValueError('process_info must be Process class!!')
-
-        self.index = index
-        self.name = name
-        self.uuid = uuid
-        self.utilization = utilization
-        self.memory_info = memory_info
-        self.process_info = process_info
-
-        return
-
-
-def query_command(command_str_list):
-    output = subprocess.Popen(command_str_list, stdout=subprocess.PIPE).communicate()[0]
-    decoded = output.decode('utf-8')
-    decoded = decoded.splitlines()
-    return decoded
+from helper import query_command
 
 
 def compute_leading_space(in_str):
@@ -69,7 +19,12 @@ def handle_memory_values(decoded, index):
     mem_total_val = int(mem_total_val.lstrip().split(' ')[0])
     mem_used_val = int(mem_used_val.lstrip().split(' ')[0])
     mem_free_val = int(mem_free_val.lstrip().split(' ')[0])
-    return MemoryUsage(mem_total_val, mem_used_val, mem_free_val)
+    memory_info = {
+        'mem_total': mem_total_val,
+        'mem_used': mem_used_val,
+        'mem_free': mem_free_val
+    }
+    return memory_info
 
 
 def handle_utilization_values(decoded, index):
@@ -89,7 +44,12 @@ def handle_process_values(decoded, index):
 
         pid_val = int(pid_val)
         pmem_val = int(pmem_val.lstrip().split(' ')[0])
-        p_obj = Process(pid_val, ptype_val, pname_val, pmem_val)
+        p_obj = {
+            'pid': pid_val,
+            'type': ptype_val,
+            'name': pname_val,
+            'mem_used': pmem_val
+        }
         process_list.append(p_obj)
 
         p_index += 4
@@ -120,7 +80,7 @@ def run_nvidia_smi():
     n_gpus, decoded = parse_header(decoded)
 
     current_item = None
-    useful_info = list()
+    parsed_gpu_info = list()
     decoded_index = 0
     while decoded_index < len(decoded):
         # get current item
@@ -138,7 +98,7 @@ def run_nvidia_smi():
         # check string leading spaces
         if leading_space == 0:
             if current_item is not None:
-                useful_info.append(current_item)
+                parsed_gpu_info.append(current_item)
 
             # reset current_item
             current_item = dict()
@@ -163,38 +123,21 @@ def run_nvidia_smi():
 
     # insert last item if any
     if current_item:
-        useful_info.append(current_item)
-    return useful_info
+        parsed_gpu_info.append(current_item)
+    return parsed_gpu_info
 
 
 def main():
-    useful_info = run_nvidia_smi()
-    pprint.pprint(useful_info)
+    import pprint
+
+    try:
+        parsed_gpu_info = run_nvidia_smi()
+        pprint.pprint(parsed_gpu_info, width=1)
+    except ValueError as e:
+        print(e.message)
     return
 
 
 if __name__ == '__main__':
     main()
 
-
-# def get_list_of_gpus():
-#     decoded = query_command(['nvidia-smi', '-L'])
-#
-#     list_of_gpus = dict()
-#     for decoded_str in decoded:
-#         gpu_index, gpu_type_uuid = decoded_str.split(':', 1)
-#
-#         gpu_index = int(gpu_index.split(' ', 1)[1])
-#
-#         gpu_type, gpu_uuid = gpu_type_uuid.split('(', 1)
-#         gpu_type = gpu_type.rstrip()
-#
-#         gpu_uuid, _ = gpu_uuid.split(')', 1)
-#         _, gpu_uuid = gpu_uuid.split(':', 1)
-#         gpu_uuid = gpu_uuid.lstrip()
-#
-#         list_of_gpus[gpu_index] = {
-#             'gpu_type': gpu_type,
-#             'gpu_uuid': gpu_uuid,
-#         }
-#     return list_of_gpus
