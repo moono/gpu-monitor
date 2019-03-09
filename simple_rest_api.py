@@ -1,6 +1,7 @@
+import os
 from apscheduler.schedulers.background import BackgroundScheduler
 from nvidia_smi import run_nvidia_smi
-from flask import Flask
+from flask import Flask, jsonify
 from flask_restful import Resource, Api
 
 
@@ -26,14 +27,15 @@ api = Api(app)
 
 
 class GPUStatus(Resource):
-    def post(self):
+    def get(self):
         global parsed_gpu_info
-        # import pprint
-        # pprint.pprint(parsed_gpu_info, width=1)
-        return parsed_gpu_info
+        return jsonify(parsed_gpu_info)
 
 
 api.add_resource(GPUStatus, '/gpu_stat')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.debug = True
+    host = os.environ.get('IP', '0.0.0.0')
+    port = int(os.environ.get('PORT', 3033))
+    app.run(host=host, port=port)

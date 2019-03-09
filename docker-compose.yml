@@ -1,0 +1,15 @@
+version: '2.3'
+services:
+  scheduler:
+    build: .
+    image: moono/gpu-monitor:latest
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    pid: "host"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/proc:/host_proc"
+    ports:
+      - "3033:3033"
+    command: ["python", "simple_rest_api.py"]

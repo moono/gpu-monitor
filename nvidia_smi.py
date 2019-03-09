@@ -20,9 +20,9 @@ def handle_memory_values(decoded, index):
     mem_used_val = int(mem_used_val.lstrip().split(' ')[0])
     mem_free_val = int(mem_free_val.lstrip().split(' ')[0])
     memory_info = {
-        'mem_total': mem_total_val,
-        'mem_used': mem_used_val,
-        'mem_free': mem_free_val
+        'total': mem_total_val,
+        'used': mem_used_val,
+        'free': mem_free_val
     }
     return memory_info
 
