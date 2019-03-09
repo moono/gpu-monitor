@@ -1,7 +1,7 @@
 version: '2.3'
 services:
   scheduler:
-    build: .
+    build: ..
     image: moono/gpu-monitor:latest
     runtime: nvidia
     environment:

@@ -1,6 +1,6 @@
 import os
 from apscheduler.schedulers.background import BackgroundScheduler
-from nvidia_smi import run_nvidia_smi
+from rest_api_server.nvidia_smi import run_nvidia_smi
 from flask import Flask, jsonify
 from flask_restful import Resource, Api
 

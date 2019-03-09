@@ -1,4 +1,4 @@
-from helper import query_command
+from rest_api_server.helper import query_command
 
 
 def get_docker_container_id_n_name(pid, verbose=False):
