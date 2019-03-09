@@ -1,7 +1,7 @@
 version: '2.3'
 services:
   rest-api:
-    build: ..
+    build: .
     image: moono/gm-rest-api-server:latest
     runtime: nvidia
     environment:

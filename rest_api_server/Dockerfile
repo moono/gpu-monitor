@@ -21,7 +21,7 @@ RUN ln -sfn /usr/bin/python3.6 /usr/bin/python3 && \
     ln -sfn /usr/bin/pip3 /usr/bin/pip
 
 # copy current sources & install requred packages
-COPY .. /app
+COPY . /app
 WORKDIR /app
 RUN pip install -r requirements.txt
 
