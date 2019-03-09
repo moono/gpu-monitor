@@ -3,8 +3,8 @@ from rest_api_server.helper import query_command
 
 def get_docker_container_id_n_name(pid, verbose=False):
     # get information via pid
-    command_str_list = ['cat', '/proc/{}/cgroup'.format(pid)]
-    # command_str_list = ['cat', '/host_proc/{}/cgroup'.format(pid)]
+    # command_str_list = ['cat', '/proc/{}/cgroup'.format(pid)]
+    command_str_list = ['cat', '/host_proc/{}/cgroup'.format(pid)]
     decoded = query_command(command_str_list)
 
     # if selected process is related to docker, then it will contain multiple lines with '/docker/' inside
