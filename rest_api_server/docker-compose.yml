@@ -1,6 +1,6 @@
 version: '2.3'
 services:
-  scheduler:
+  rest-api:
     build: ..
     image: moono/gm-rest-api-server:latest
     runtime: nvidia
@@ -11,5 +11,5 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "/proc:/host_proc"
     ports:
-      - "3033:3033"
+      - "3032:3032"
     command: ["python", "simple_rest_api.py"]

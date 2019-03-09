@@ -26,7 +26,7 @@ WORKDIR /app
 RUN pip install -r requirements.txt
 
 # set port
-EXPOSE 3033
+EXPOSE 3032
 
 # set commands
 CMD ["python", "simple_rest_api.py"]
