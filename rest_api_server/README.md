@@ -7,6 +7,11 @@
 * Docker, Docker-compose
 
 # Important Note
+* Try `nvidia-smi` on terminal and see if it outputs fairly fast enough.
+* If not, turn persistance mode on.
+```bash
+moono@moono-ubuntu:~$ sudo nvidia-smi --persistence-mode=1
+```
 
 ## This repo will use following commands, use at your own risk!!
 * When inside container, it cannot parse processes that are not created inside the same container
