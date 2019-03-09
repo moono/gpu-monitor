@@ -2,7 +2,7 @@ version: '2.3'
 services:
   scheduler:
     build: ..
-    image: moono/gpu-monitor:latest
+    image: moono/gm-rest-api-server:latest
     runtime: nvidia
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
