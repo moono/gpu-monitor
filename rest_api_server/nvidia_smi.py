@@ -1,4 +1,4 @@
-from rest_api_server.helper import query_command
+from helper import query_command
 
 
 def compute_leading_space(in_str):
