@@ -44,6 +44,7 @@ def handle_process_values(decoded, index):
 
         pid_val = int(pid_val)
         pmem_val = int(pmem_val.lstrip().split(' ')[0])
+        pname_val = (pname_val.split('/')[-1]).split(' ')[0]
         p_obj = {
             'pid': pid_val,
             'type': ptype_val,
