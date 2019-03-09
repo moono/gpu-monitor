@@ -1,8 +1,10 @@
 import os
 from apscheduler.schedulers.background import BackgroundScheduler
-from nvidia_smi import run_nvidia_smi
 from flask import Flask, jsonify
 from flask_restful import Resource, Api
+
+from nvidia_smi import run_nvidia_smi
+from information_organizer import reorganize_and_merge_info
 
 
 parsed_gpu_info = None
@@ -11,7 +13,8 @@ parsed_gpu_info = None
 def sensor():
     try:
         global parsed_gpu_info
-        parsed_gpu_info = run_nvidia_smi()
+        raw_info = run_nvidia_smi()
+        parsed_gpu_info = reorganize_and_merge_info(raw_info, parse_docker=True)
     except ValueError as e:
         print(e.message)
     return

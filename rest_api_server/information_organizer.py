@@ -1,4 +1,4 @@
-from rest_api_server.docker_parser import get_docker_container_id_n_name
+from docker_parser import get_docker_container_id_n_name
 
 
 def reorganize_and_merge_info(gpu_info, parse_docker=False):
