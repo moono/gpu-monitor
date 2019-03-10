@@ -73,9 +73,13 @@ def parse_header(decoded):
 
 
 def run_nvidia_smi():
-    # query nvidia-smi once
-    display_string = ','.join(['MEMORY', 'UTILIZATION', 'PIDS'])
-    decoded = query_command(['nvidia-smi', '-q', '--display={:s}'.format(display_string)])
+    try:
+        # query nvidia-smi once
+        display_string = ','.join(['MEMORY', 'UTILIZATION', 'PIDS'])
+        decoded = query_command(['nvidia-smi', '-q', '--display={:s}'.format(display_string)])
+    except ValueError as e:
+        print(e)
+        return list()
 
     # parse header to get number of gpus
     n_gpus, decoded = parse_header(decoded)
@@ -135,7 +139,7 @@ def main():
         parsed_gpu_info = run_nvidia_smi()
         pprint.pprint(parsed_gpu_info, width=1)
     except ValueError as e:
-        print(e.message)
+        print(e)
     return
 
 

@@ -1,11 +1,15 @@
 from helper import query_command
 
 
-def get_docker_container_id_n_name(pid, verbose=False):
+def find_docker_container_id(pid):
     # get information via pid
-    # command_str_list = ['cat', '/proc/{}/cgroup'.format(pid)]
-    command_str_list = ['cat', '/host_proc/{}/cgroup'.format(pid)]
-    decoded = query_command(command_str_list)
+    try:
+        # command_str_list = ['cat', '/proc/{}/cgroup'.format(pid)]
+        command_str_list = ['cat', '/host_proc/{}/cgroup'.format(pid)]
+        decoded = query_command(command_str_list)
+    except ValueError as e:
+        print(e)
+        return None
 
     # if selected process is related to docker, then it will contain multiple lines with '/docker/' inside
     pid_line = None
@@ -15,19 +19,27 @@ def get_docker_container_id_n_name(pid, verbose=False):
             break
 
     # check if it is related to docker container
+    docker_container_id = None
     if pid_line is not None:
         # docker container id is behind '/' (last one)
         splitted = pid_line.split('/')
         docker_container_id = splitted[-1]
+    return docker_container_id
 
-        # use docker inspect to get container name & parse to get only container name
-        docker_command_str_list = ['docker', 'inspect', '-f', '{{.Name}}', docker_container_id]
-        docker_container_name = query_command(docker_command_str_list)
-        docker_container_name = docker_container_name[0]
-        docker_container_name = docker_container_name[1:]
 
-        if verbose:
-            print('docker image info: {}/{}'.format(docker_container_id[:5], docker_container_name))
-        return docker_container_id, docker_container_name
+def get_docker_container_name(pid):
+    docker_container_id = find_docker_container_id(pid)
+
+    # use docker inspect to get container name & parse to get only container name
+    if docker_container_id is not None:
+        try:
+            docker_command_str_list = ['docker', 'inspect', '-f', '{{.Name}}', docker_container_id]
+            docker_container_name = query_command(docker_command_str_list)
+            docker_container_name = docker_container_name[0]
+            docker_container_name = docker_container_name[1:]
+            return docker_container_name
+        except ValueError as e:
+            print(e)
+            return None
     else:
-        return None, None
+        return None
