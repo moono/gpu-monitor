@@ -5,7 +5,6 @@ from flask import Flask, render_template, jsonify
 
 
 def parse_config_file(config_file):
-    counts = 0
     with open(config_file) as f:
         config_dict = json.load(f)
     return config_dict
@@ -19,14 +18,6 @@ endpoints = parse_config_file('./config.json')
 app = Flask(__name__)
 
 
-def parse_data(chart_data_list):
-    return
-
-
-def merge_chart_data(chart_data_list):
-    return
-
-
 def collect_once():
     # get all data from database
     chart_data_list = list()
@@ -36,13 +27,6 @@ def collect_once():
 
     return chart_data_list
 
-
-# @app.route('/')
-# def simple_homepage():
-#     chart_data = collect_once()
-#     return render_template('index.html',
-#                            main_chart_data=chart_data['main'],
-#                            second_chart_data=chart_data['second'])
 
 @app.route('/')
 def simple_homepage():
