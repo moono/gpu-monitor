@@ -1,4 +1,5 @@
 import os
+import logging
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask, jsonify
 from flask_restful import Resource, Api
@@ -25,6 +26,8 @@ sched_background.add_job(sensor, 'interval', seconds=1)
 sched_background.start()
 
 
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 app = Flask(__name__)
 api = Api(app)
 

@@ -1,5 +1,6 @@
 import os
 import json
+import logging
 import requests
 from flask import Flask, render_template, jsonify
 
@@ -15,6 +16,8 @@ endpoints = parse_config_file('./config.json')
 
 
 # create flask instance
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 app = Flask(__name__)
 
 
