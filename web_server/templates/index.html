@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ page_title }}</title>
+    <meta charset="utf-8">
+</head>
+
+
+<body>
+<div>
+    {% for host_name, data in initial_chart_data %}
+        <canvas id="myChart_{{ host_name }}" width="400" height="200"></canvas>
+        <br>
+    {% endfor %}
+</div>
+
+<!-- Additional library scripts-->
+<!-- jquery -->
+<script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+
+<!-- Chart.js-->
+<script src="{{ url_for('static', filename='chartjs-2.7.3/Chart.min.js') }}"></script>
+
+<!-- Custom script -->
+<script type="text/javascript">
+
+    window.onload = function () {
+        // get initial data
+        var initialChartData = JSON.parse('{{ initial_chart_data | tojson | safe }}');
+
+        // set initial values
+        var data_dict = new Object();
+        for (var i = 0; i < initialChartData.length; i++) {
+            const host_name = initialChartData[i][0];
+            const bar_chart_data = initialChartData[i][1]["bar_chart"];
+            const pie_chart_data = initialChartData[i][1]["pie_chart"];
+
+            data_dict[host_name] = {
+                bar_labels: bar_chart_data["labels"],
+                m_data: bar_chart_data["memory_data"],
+                u_data: bar_chart_data["utilization_data"],
+                pie_labels: pie_chart_data["labels"],
+                p_data: pie_chart_data["processes_data"]
+            }
+        }
+        // console.log(data_dict);
+
+        // create chart for the first time
+        for (var key in data_dict) {
+            const elementID = "myChart_" + key;
+            const bar_labels = data_dict[key]["bar_labels"];
+            const m_data = data_dict[key]["m_data"];
+            const u_data = data_dict[key]["u_data"];
+            var m_background_color = [];
+            var m_border_color = [];
+            var u_background_color = [];
+            var u_border_color = [];
+            for (var i = 0; i < bar_labels.length; i++) {
+                m_background_color.push('rgba(54, 162, 235, 0.2)');
+                m_border_color.push('rgba(54, 162, 235, 1)');
+                u_background_color.push('rgba(255, 99, 132, 0.2)');
+                u_border_color.push('rgba(255, 99, 132, 1)');
+            }
+            // const pie_labels = data_dict[key]["pie_labels"];
+            // const p_data = data_dict[key]["p_data"];
+            var ctx = document.getElementById(elementID).getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'horizontalBar',
+
+                data: {
+                    labels: bar_labels,
+                    datasets: [{
+                        label: 'memory',
+                        data: m_data,
+                        backgroundColor: m_background_color,
+                        borderColor: m_border_color,
+                        borderWidth: 1
+                    }, {
+                        label: 'utilization',
+                        data: u_data,
+                        backgroundColor: u_background_color,
+                        borderColor: u_border_color,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                max: 100,
+                                //min: 0,
+                                stepSize: 10
+                            },
+                            gridLines: {
+                                offsetGridLines: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+
+    }
+
+</script>
+
+</body>
+</html>

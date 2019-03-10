@@ -1,0 +1,8 @@
+version: '2.3'
+services:
+  job:
+    build: .
+    image: moono/gpu-monitor-chief:latest
+    ports:
+      - "3033:3033"
+    command: ["python", "chief.py"]
