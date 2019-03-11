@@ -12,4 +12,3 @@ services:
       - "/proc:/host_proc:ro"
     ports:
       - "3032:3032"
-    command: ["python", "simple_rest_api.py"]
