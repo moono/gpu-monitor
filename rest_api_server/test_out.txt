@@ -1,0 +1,179 @@
+
+==============NVSMI LOG==============
+
+Timestamp                           : Mon Mar 11 14:54:19 2019
+Driver Version                      : 384.98
+
+Attached GPUs                       : 4
+GPU 00000000:02:00.0
+    FB Memory Usage
+        Total                       : 12189 MiB
+        Used                        : 11754 MiB
+        Free                        : 435 MiB
+    BAR1 Memory Usage
+        Total                       : 256 MiB
+        Used                        : 4 MiB
+        Free                        : 252 MiB
+    Utilization
+        Gpu                         : 96 %
+        Memory                      : 48 %
+        Encoder                     : 0 %
+        Decoder                     : 0 %
+    GPU Utilization Samples
+        Duration                    : 18446744073709.21 sec
+        Number of Samples           : 99
+        Max                         : 99 %
+        Min                         : 91 %
+        Avg                         : 0 %
+    Memory Utilization Samples
+        Duration                    : 18446744073709.21 sec
+        Number of Samples           : 99
+        Max                         : 54 %
+        Min                         : 29 %
+        Avg                         : 0 %
+    ENC Utilization Samples
+        Duration                    : 18446744073709.21 sec
+        Number of Samples           : 99
+        Max                         : 0 %
+        Min                         : 0 %
+        Avg                         : 0 %
+    DEC Utilization Samples
+        Duration                    : 18446744073709.21 sec
+        Number of Samples           : 99
+        Max                         : 0 %
+        Min                         : 0 %
+        Avg                         : 0 %
+    Processes
+        Process ID                  : 33218
+            Type                    : C
+            Name                    : python
+            Used GPU Memory         : 11743 MiB
+
+GPU 00000000:03:00.0
+    FB Memory Usage
+        Total                       : 12189 MiB
+        Used                        : 2 MiB
+        Free                        : 12187 MiB
+    BAR1 Memory Usage
+        Total                       : 256 MiB
+        Used                        : 4 MiB
+        Free                        : 252 MiB
+    Utilization
+        Gpu                         : 0 %
+        Memory                      : 0 %
+        Encoder                     : 0 %
+        Decoder                     : 0 %
+    GPU Utilization Samples
+        Duration                    : 18446744073709.22 sec
+        Number of Samples           : 99
+        Max                         : 0 %
+        Min                         : 0 %
+        Avg                         : 0 %
+    Memory Utilization Samples
+        Duration                    : 18446744073709.22 sec
+        Number of Samples           : 99
+        Max                         : 0 %
+        Min                         : 0 %
+        Avg                         : 0 %
+    ENC Utilization Samples
+        Duration                    : 18446744073709.22 sec
+        Number of Samples           : 99
+        Max                         : 0 %
+        Min                         : 0 %
+        Avg                         : 0 %
+    DEC Utilization Samples
+        Duration                    : 18446744073709.22 sec
+        Number of Samples           : 99
+        Max                         : 0 %
+        Min                         : 0 %
+        Avg                         : 0 %
+    Processes                       : None
+
+GPU 00000000:82:00.0
+    FB Memory Usage
+        Total                       : 12189 MiB
+        Used                        : 11754 MiB
+        Free                        : 435 MiB
+    BAR1 Memory Usage
+        Total                       : 256 MiB
+        Used                        : 4 MiB
+        Free                        : 252 MiB
+    Utilization
+        Gpu                         : 96 %
+        Memory                      : 95 %
+        Encoder                     : 0 %
+        Decoder                     : 0 %
+    GPU Utilization Samples
+        Duration                    : 18446744073709.21 sec
+        Number of Samples           : 99
+        Max                         : 98 %
+        Min                         : 93 %
+        Avg                         : 0 %
+    Memory Utilization Samples
+        Duration                    : 18446744073709.21 sec
+        Number of Samples           : 99
+        Max                         : 100 %
+        Min                         : 88 %
+        Avg                         : 0 %
+    ENC Utilization Samples
+        Duration                    : 18446744073709.21 sec
+        Number of Samples           : 99
+        Max                         : 0 %
+        Min                         : 0 %
+        Avg                         : 0 %
+    DEC Utilization Samples
+        Duration                    : 18446744073709.21 sec
+        Number of Samples           : 99
+        Max                         : 0 %
+        Min                         : 0 %
+        Avg                         : 0 %
+    Processes
+        Process ID                  : 2179
+            Type                    : C
+            Name                    : python
+            Used GPU Memory         : 11739 MiB
+
+GPU 00000000:83:00.0
+    FB Memory Usage
+        Total                       : 12189 MiB
+        Used                        : 11754 MiB
+        Free                        : 435 MiB
+    BAR1 Memory Usage
+        Total                       : 256 MiB
+        Used                        : 4 MiB
+        Free                        : 252 MiB
+    Utilization
+        Gpu                         : 100 %
+        Memory                      : 50 %
+        Encoder                     : 0 %
+        Decoder                     : 0 %
+    GPU Utilization Samples
+        Duration                    : 18446744073709.21 sec
+        Number of Samples           : 99
+        Max                         : 99 %
+        Min                         : 89 %
+        Avg                         : 0 %
+    Memory Utilization Samples
+        Duration                    : 18446744073709.21 sec
+        Number of Samples           : 99
+        Max                         : 53 %
+        Min                         : 27 %
+        Avg                         : 0 %
+    ENC Utilization Samples
+        Duration                    : 18446744073709.21 sec
+        Number of Samples           : 99
+        Max                         : 0 %
+        Min                         : 0 %
+        Avg                         : 0 %
+    DEC Utilization Samples
+        Duration                    : 18446744073709.21 sec
+        Number of Samples           : 99
+        Max                         : 0 %
+        Min                         : 0 %
+        Avg                         : 0 %
+    Processes
+        Process ID                  : 32411
+            Type                    : C
+            Name                    : python
+            Used GPU Memory         : 11743 MiB
+

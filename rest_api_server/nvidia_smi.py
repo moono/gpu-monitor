@@ -73,13 +73,17 @@ def parse_header(decoded):
 
 
 def run_nvidia_smi():
-    try:
-        # query nvidia-smi once
-        display_string = ','.join(['MEMORY', 'UTILIZATION', 'PIDS'])
-        decoded = query_command(['nvidia-smi', '-q', '--display={:s}'.format(display_string)])
-    except ValueError as e:
-        print(e)
-        return list()
+    # try:
+    #     # query nvidia-smi once
+    #     display_string = ','.join(['MEMORY', 'UTILIZATION', 'PIDS'])
+    #     decoded = query_command(['nvidia-smi', '-q', '--display={:s}'.format(display_string)])
+    # except ValueError as e:
+    #     print(e)
+    #     return list()
+    with open('test_out.txt') as f:
+        content = f.readlines()
+    # you may also want to remove whitespace characters like `\n` at the end of each line
+    decoded = [x.rstrip('\n') for x in content]
 
     # parse header to get number of gpus
     n_gpus, decoded = parse_header(decoded)
@@ -121,6 +125,10 @@ def run_nvidia_smi():
                 p_list = handle_process_values(decoded, decoded_index)
                 current_item['processes'] = p_list
                 decoded_index += len(p_list) * 4 + 1
+            # in case of 'Processes:    None'
+            elif 'Processes' in lstriped_str:
+                current_item['processes'] = list()
+                decoded_index += 1
             else:
                 decoded_index += 1
         else:
