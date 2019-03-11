@@ -28,4 +28,4 @@ RUN pip install -r requirements.txt
 EXPOSE 3033
 
 # set commands
-CMD ["python", "chief.py"]
+CMD ["python", "views.py"]

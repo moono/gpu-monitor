@@ -1,8 +1,7 @@
 version: '2.3'
 services:
-  job:
+  web-server:
     build: .
-    image: moono/gpu-monitor-chief:latest
+    image: moono/gm-web-server:latest
     ports:
       - "3033:3033"
-    command: ["python", "chief.py"]
