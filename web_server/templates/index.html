@@ -3,15 +3,62 @@
 <head>
     <title>{{ page_title }}</title>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <style>
+        html {
+            font-size: 1rem;
+        }
+
+        @media (min-width: 576px) {
+            html {
+                font-size: 1.25rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            html {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (min-width: 992px) {
+            html {
+                font-size: 1.75rem;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            html {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 
 
 <body>
-<div>
+<div class="container-fluid">
     {% for host_name, data in initial_chart_data %}
-        <canvas id="barChart_{{ host_name }}" width="400" height="200"></canvas>
-        <canvas id="pieChart_{{ host_name }}" width="400" height="200"></canvas>
-        <br>
+    <div class="row">
+        <!-- Left space -->
+        <div class="col-sm-1 col-md-1 col-lg-1 sidenav">
+            <h3>{{ host_name }}</h3>
+        </div>
+
+        <div class="col-sm-5 col-md-5 col-lg-5">
+            <canvas id="barChart_{{ host_name }}"></canvas>
+        </div>
+        <div class="col-sm-5 col-md-5 col-lg-5">
+            <canvas id="pieChart_{{ host_name }}"></canvas>
+        </div>
+
+        <!-- Right space -->
+        <div class="col-sm-1 col-md-1 col-lg-1 sidenav">
+        </div>
+    </div>
     {% endfor %}
 </div>
 
@@ -19,11 +66,21 @@
 <!-- jquery -->
 <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
 
+<!-- Bootstrap core JavaScript -->
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
 <!-- Chart.js-->
 <script src="{{ url_for('static', filename='chartjs-2.7.3/Chart.min.js') }}"></script>
 
 <!-- Custom script -->
 <script type="text/javascript">
+
+    // var dynamicColors = function () {
+    //     var r = Math.floor(Math.random() * 255);
+    //     var g = Math.floor(Math.random() * 255);
+    //     var b = Math.floor(Math.random() * 255);
+    //     return "rgb(" + r + "," + g + "," + b + ")";
+    // };
 
     const predefinedColors = [
         'rgba(255,99,132,1)',
@@ -34,27 +91,20 @@
         'rgba(255, 159, 64, 1)'
     ];
 
-    var dynamicColors = function () {
-        var r = Math.floor(Math.random() * 255);
-        var g = Math.floor(Math.random() * 255);
-        var b = Math.floor(Math.random() * 255);
-        return "rgb(" + r + "," + g + "," + b + ")";
-    };
-
-    var createChartjsBarChartData = function (bar_chart_data) {
-        var m_background_color = [];
-        var m_border_color = [];
-        var u_background_color = [];
-        var u_border_color = [];
-        for (var i = 0; i < bar_chart_data["labels"].length; i++) {
+    function createChartjsBarChartData (bar_chart_data) {
+        const m_background_color = [];
+        const m_border_color = [];
+        const u_background_color = [];
+        const u_border_color = [];
+        for (let i = 0; i < bar_chart_data["labels"].length; i++) {
             m_background_color.push('rgba(54, 162, 235, 0.2)');
             m_border_color.push('rgba(54, 162, 235, 1)');
             u_background_color.push('rgba(255, 99, 132, 0.2)');
             u_border_color.push('rgba(255, 99, 132, 1)');
         }
 
-        // create chart.js data
-        var chart_data = {
+        // create chart.js data and return
+        return {
             labels: bar_chart_data["labels"],
             datasets: [{
                 label: 'memory',
@@ -70,19 +120,17 @@
                 borderWidth: 1
             }]
         };
+    }
 
-        return chart_data;
-    };
-
-    var createChartjsPieChartData = function (pie_chart_data) {
-        var background_color = [];
-        for (var i = 0; i < pie_chart_data["labels"].length; i++) {
-            var index = i % predefinedColors.length;
+    function createChartjsPieChartData (pie_chart_data) {
+        const background_color = [];
+        for (let i = 0; i < pie_chart_data["labels"].length; i++) {
+            let index = i % predefinedColors.length;
             background_color.push(predefinedColors[index]);
         }
 
-        // create chart.js data
-        var chart_data = {
+        // create chart.js data and return
+        return {
             labels: pie_chart_data["labels"],
             datasets: [{
                 label: pie_chart_data["labels"],
@@ -90,11 +138,9 @@
                 backgroundColor: background_color
             }]
         };
-
-        return chart_data;
     }
 
-    var updateChart = function (charts) {
+    function updateChart (charts) {
         $.ajax({
             url: '/collect_all',
             type: 'GET',
@@ -104,15 +150,15 @@
             success: function (data) {
                 // console.log('Success!');
                 // set new data for each charts
-                for (var i = 0; i < data.length; i++) {
+                for (let i = 0; i < data.length; i++) {
                     const host_name = data[i][0];
-                    const barElementID = "barChart_" + host_name;
-                    const pieElementID = "pieChart_" + host_name;
-                    var bar_chart_data = createChartjsBarChartData(data[i][1]["bar_chart"]);
-                    var pie_chart_data = createChartjsPieChartData(data[i][1]["pie_chart"]);
+                    // const barElementID = "barChart_" + host_name;
+                    // const pieElementID = "pieChart_" + host_name;
+                    const bar_chart_data = createChartjsBarChartData(data[i][1]["bar_chart"]);
+                    const pie_chart_data = createChartjsPieChartData(data[i][1]["pie_chart"]);
 
-                    var bar_chart = charts[host_name]["bar"];
-                    var pie_chart = charts[host_name]["pie"];
+                    const bar_chart = charts[host_name]["bar"];
+                    const pie_chart = charts[host_name]["pie"];
                     bar_chart.data = bar_chart_data;
                     pie_chart.data = pie_chart_data;
                     bar_chart.update(0);
@@ -127,22 +173,23 @@
 
     window.onload = function () {
         // get initial data
-        var initialChartData = JSON.parse('{{ initial_chart_data | tojson | safe }}');
+        const initialChartData = JSON.parse('{{ initial_chart_data | tojson | safe }}');
 
         // set initial values
-        var charts = new Object();
-        for (var i = 0; i < initialChartData.length; i++) {
+        const charts = {};
+        for (let i = 0; i < initialChartData.length; i++) {
             const host_name = initialChartData[i][0];
             const barElementID = "barChart_" + host_name;
             const pieElementID = "pieChart_" + host_name;
-            var bar_chart_data = createChartjsBarChartData(initialChartData[i][1]["bar_chart"]);
-            var pie_chart_data = createChartjsPieChartData(initialChartData[i][1]["pie_chart"]);
+            const bar_chart_data = createChartjsBarChartData(initialChartData[i][1]["bar_chart"]);
+            const pie_chart_data = createChartjsPieChartData(initialChartData[i][1]["pie_chart"]);
 
             // create bar charts and save
-            charts[host_name] = new Object();
-            var bar_ctx = document.getElementById(barElementID).getContext('2d');
+            charts[host_name] = {};
+            const bar_ctx = document.getElementById(barElementID).getContext('2d');
             charts[host_name]["bar"] = new Chart(bar_ctx, {
-                type: 'horizontalBar',
+                // type: 'horizontalBar',
+                type: 'bar',
                 data: bar_chart_data,
                 options: {
                     scales: {
@@ -161,7 +208,7 @@
                 }
             });
 
-            var pie_ctx = document.getElementById(pieElementID).getContext('2d');
+            const pie_ctx = document.getElementById(pieElementID).getContext('2d');
             charts[host_name]["pie"] = new Chart(pie_ctx, {
                 type: 'polarArea',
                 data: pie_chart_data,
