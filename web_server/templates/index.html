@@ -8,10 +8,25 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <style>
+        /* Adds some space */
         .top-buffer {
             margin-top:20px;
         }
 
+        /* Collapsable div? */
+        .panel-heading .accordion-toggle:after {
+            /* symbol for "opening" panels */
+            font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+            content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+            float: right;        /* adjust as needed */
+            color: grey;         /* adjust as needed */
+        }
+        .panel-heading .accordion-toggle.collapsed:after {
+            /* symbol for "collapsed" panels */
+            content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+        }
+
+        /*  */
         html {
             font-size: 1rem;
         }
@@ -45,25 +60,52 @@
 
 <body>
 <div class="container-fluid">
-    {% for host_name, data in initial_chart_data %}
-    <div class="row top-buffer">
-        <!-- Left space -->
-        <div class="col-sm-1 col-md-1 col-lg-1 sidenav">
-            <h3>{{ host_name }}</h3>
-        </div>
+    <!--{% for host_name, data in initial_chart_data %}-->
+    <!--<div class="row top-buffer">-->
+        <!--&lt;!&ndash; Left space &ndash;&gt;-->
+        <!--<div class="col-sm-1 col-md-1 col-lg-1 sidenav">-->
+            <!--<h3>{{ host_name }}</h3>-->
+        <!--</div>-->
 
-        <div class="col-sm-5 col-md-5 col-lg-5">
-            <canvas id="barChart_{{ host_name }}"></canvas>
-        </div>
-        <div class="col-sm-5 col-md-5 col-lg-5">
-            <canvas id="pieChart_{{ host_name }}"></canvas>
-        </div>
+        <!--<div class="col-sm-5 col-md-5 col-lg-5">-->
+            <!--<canvas id="barChart_{{ host_name }}"></canvas>-->
+        <!--</div>-->
+        <!--<div class="col-sm-5 col-md-5 col-lg-5">-->
+            <!--<canvas id="pieChart_{{ host_name }}"></canvas>-->
+        <!--</div>-->
 
-        <!-- Right space -->
-        <div class="col-sm-1 col-md-1 col-lg-1 sidenav">
-        </div>
+        <!--&lt;!&ndash; Right space &ndash;&gt;-->
+        <!--<div class="col-sm-1 col-md-1 col-lg-1 sidenav">-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--{% endfor %}-->
+
+    <div class="panel-group" id="accordion">
+        {% for host_name, data in initial_chart_data %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <!-- use data-parent="#accordion" to default behavior-->
+                        <!-- https://stackoverflow.com/questions/22890435/how-do-you-keep-multiple-collapses-open-in-bootstrap-3 -->
+                        <a class="accordion-toggle" data-toggle="collapse" href="#collapse_{{ host_name }}">
+                        <!--<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{ host_name }}">-->
+                            {{ host_name }}
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse_{{ host_name }}" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <canvas id="barChart_{{ host_name }}"></canvas>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <canvas id="pieChart_{{ host_name }}"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
 
 <!-- Additional library scripts-->
