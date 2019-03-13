@@ -117,25 +117,40 @@
 
 <!-- Chart.js-->
 <script src="{{ url_for('static', filename='chartjs-2.7.3/Chart.min.js') }}"></script>
+<script src="{{ url_for('static', filename='chartjs-2.7.3/chartjs-plugin-labels.min.js') }}"></script>
 
 <!-- Custom script -->
 <script type="text/javascript">
 
-    // var dynamicColors = function () {
-    //     var r = Math.floor(Math.random() * 255);
-    //     var g = Math.floor(Math.random() * 255);
-    //     var b = Math.floor(Math.random() * 255);
-    //     return "rgb(" + r + "," + g + "," + b + ")";
-    // };
-
     const predefinedColors = [
-        'rgba(255,99,132,1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
+        'rgba(252, 161, 125, 1)',
+        'rgba(154, 52, 142, 1)',
+        'rgba(232, 219, 125, 1)',
+        'rgba(255, 159, 64, 1)',
         'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)'
+        'rgba(255,99,132,1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(249, 219, 189, 1)',
+        'rgba(218, 98, 125, 1)',
+        'rgba(85, 140, 140, 1)',
     ];
+
+    function hexToRgb (hex) {
+        // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+        let shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+        hex = hex.replace(shorthandRegex, function (m, r, g, b) {
+            return r + r + g + g + b + b;
+        });
+
+        let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    };
 
     function createChartjsBarChartData (bar_chart_data) {
         const m_background_color = [];
@@ -169,18 +184,28 @@
     }
 
     function createChartjsPieChartData (pie_chart_data) {
+        // prepare variables
+        const removeFreeMemory = true;
+        let labelsData = pie_chart_data["labels"];
+        let pointsData = pie_chart_data["processes_data"];
+        if (removeFreeMemory) {
+            const dataLength = pie_chart_data["labels"].length;
+            labelsData = labelsData.slice(0, dataLength - 1);
+            pointsData = pointsData.slice(0, dataLength - 1);
+        }
+
         const background_color = [];
-        for (let i = 0; i < pie_chart_data["labels"].length; i++) {
+        for (let i = 0; i < labelsData.length; i++) {
             let index = i % predefinedColors.length;
             background_color.push(predefinedColors[index]);
         }
 
         // create chart.js data and return
         return {
-            labels: pie_chart_data["labels"],
+            labels: labelsData,
             datasets: [{
-                label: pie_chart_data["labels"],
-                data: pie_chart_data["processes_data"],
+                label: labelsData,
+                data: pointsData,
                 backgroundColor: background_color
             }]
         };
@@ -198,8 +223,6 @@
                 // set new data for each charts
                 for (let i = 0; i < data.length; i++) {
                     const host_name = data[i][0];
-                    // const barElementID = "barChart_" + host_name;
-                    // const pieElementID = "pieChart_" + host_name;
                     const bar_chart_data = createChartjsBarChartData(data[i][1]["bar_chart"]);
                     const pie_chart_data = createChartjsPieChartData(data[i][1]["pie_chart"]);
 
@@ -251,27 +274,9 @@
                             }
                         }]
                     },
-                    animation: {
-                        onComplete: function () {
-                            const ctx = this.chart.ctx;
-                            ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
-                            ctx.textAlign = 'center';
-                            ctx.textBaseline = 'bottom';
-
-                            this.data.datasets.forEach(function (dataset) {
-                                for (let i = 0; i < dataset.data.length; i++) {
-                                    const model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
-                                        scale_max = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._yScale.maxHeight;
-                                    ctx.fillStyle = '#444';
-                                    let y_pos = model.y - 5;
-                                    // Make sure data value does not get overflown and hidden
-                                    // when the bar's value is too close to max value of scale
-                                    // Note: The y value is reverse, it counts from top down
-                                    if ((scale_max - model.y) / scale_max >= 0.93)
-                                        y_pos = model.y + 20;
-                                    ctx.fillText(dataset.data[i], model.x, y_pos);
-                                }
-                            });
+                    plugins: {
+                        labels: {
+                            render: 'value'
                         }
                     }
                 }
@@ -279,11 +284,33 @@
 
             const pie_ctx = document.getElementById(pieElementID).getContext('2d');
             charts[host_name]["pie"] = new Chart(pie_ctx, {
-                type: 'polarArea',
+                // type: 'polarArea',
+                type: 'doughnut',
+                // type: 'pie',
                 data: pie_chart_data,
+                options: {
+                    plugins: {
+                        labels: [
+                            {
+                              render: 'label',
+                              fontColor: '#000',
+                              fontStyle: 'bold',
+                              arc: true,
+                              position: 'outside'
+                            },
+                            {
+                              render: 'percentage',
+                              fontColor: '#000',
+                              fontStyle: 'bold',
+                              textShadow: true,
+                              precision: 2
+                            }
+                        ]
+                    }
+                }
             });
         }
-        console.log("break point..");
+        // console.log("break point..");
 
         setInterval(function () {
             updateChart(charts)
