@@ -26,9 +26,45 @@ def collect_once():
     chart_data_list = list()
     for host_name, info in endpoints.items():
         r = requests.get('http://{:s}:{:s}/gpu_stat'.format(info['host'], info['port']))
-        chart_data_list.append((host_name, r.json()))
+
+        bar_pie_chart_data = r.json()
+        chart_data = create_n_merge_stacked_bar_chart_data(bar_pie_chart_data)
+        chart_data_list.append((host_name, chart_data))
 
     return chart_data_list
+
+
+def create_n_merge_stacked_bar_chart_data(bar_pie_chart_data):
+    bar_chart = bar_pie_chart_data['bar_chart']
+    pie_chart = bar_pie_chart_data['pie_chart']
+
+    labels = bar_chart['labels']
+    datasets = list()
+    for gpu_label in labels:
+        data_label = list()
+        memory_data = list()
+        for process_label, process_data in zip(pie_chart['labels'], pie_chart['processes_data']):
+            prefix_n_name = process_label.split('/', 1)
+
+            if prefix_n_name[0] == gpu_label:
+                data_label.append(prefix_n_name[1])
+                memory_data.append(process_data)
+
+        datasets.append({
+            'label': data_label,
+            'data': memory_data
+        })
+
+    merged_chart_data = {
+        'bar_chart': bar_chart,
+        'pie_chart': pie_chart,
+        'stacked_chart': {
+            'labels': labels,
+            'datasets': datasets
+        }
+    }
+
+    return merged_chart_data
 
 
 @app.route('/')
