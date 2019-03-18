@@ -1,0 +1,46 @@
+[
+  {
+    "bar_chart": {
+      "labels": ["gpu_0", "gpu_1"],
+      "memory_data": [95, 55],
+      "utilization_data": [90, 98]
+    },
+    "pie_chart": {
+      "labels": ["gpu_0/Xorg_dakdmksadlmaskl_dmskmals_am", "gpu_0/compiz", "gpu_0/chrome", "gpu_1/Xorg", "gpu_1/compiz", "gpu_1/chrome", "free"],
+      "processes_data": [347, 68, 46, 347, 68, 46, 7648]
+    }
+  },
+  {
+    "bar_chart": {
+      "labels": ["gpu_0", "gpu_1", "gpu_2", "gpu_3"],
+      "memory_data": [95, 55, 95, 55],
+      "utilization_data": [90, 98, 90, 98]
+    },
+    "pie_chart": {
+      "labels": ["gpu_0/Xorg", "gpu_1/compiz", "gpu_2/chrome", "gpu_3/Xorg", "free"],
+      "processes_data": [347, 68, 46, 347, 7648]
+    }
+  },
+  {
+    "bar_chart": {
+      "labels": ["gpu_0", "gpu_1", "gpu_2", "gpu_3", "gpu_4", "gpu_5"],
+      "memory_data": [95, 55, 95, 55, 95, 55],
+      "utilization_data": [90, 98, 90, 98, 90, 98]
+    },
+    "pie_chart": {
+      "labels": ["gpu_0/Xorg", "gpu_1/compiz", "gpu_2/chrome", "gpu_3/Xorg", "gpu_4/chrome", "gpu_5/Xorg", "free"],
+      "processes_data": [347, 68, 46, 347, 46, 347, 7648]
+    }
+  },
+  {
+    "bar_chart": {
+      "labels": ["gpu_0", "gpu_1", "gpu_2", "gpu_3", "gpu_4", "gpu_5", "gpu_6", "gpu_7"],
+      "memory_data": [95, 55, 95, 55, 95, 55, 95, 55],
+      "utilization_data": [90, 98, 90, 98, 90, 98, 90, 98]
+    },
+    "pie_chart": {
+      "labels": ["gpu_0/Xorg", "gpu_1/compiz", "gpu_2/chrome", "gpu_3/Xorg", "gpu_4/chrome", "gpu_5/Xorg", "gpu_6/compiz", "gpu_7/chrome", "free"],
+      "processes_data": [347, 68, 46, 347, 46, 347, 46, 347, 7648]
+    }
+  }
+]
