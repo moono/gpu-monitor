@@ -4,7 +4,7 @@ import logging
 import requests
 from flask import Flask, render_template, jsonify
 
-DEBUG_OVERRIDE = False
+DEBUG_OVERRIDE = True
 GPU_TEST_DATA = [
     {
         "bar_chart": {
