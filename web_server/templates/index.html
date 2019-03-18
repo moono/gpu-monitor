@@ -101,6 +101,8 @@
 
 <!-- Custom script -->
 <script type="text/javascript">
+    let user_names = Array();
+
     const pieBGColors = [
         'rgba(252, 161, 125, 1)',
         'rgba(154, 52, 142, 1)',
@@ -158,6 +160,7 @@
             pointsData = pointsData.slice(0, dataLength - 1);
         }
 
+        // set same color for same gpu index
         const background_color = [];
         for (let i = 0; i < labelsData.length; i++) {
             let label = labelsData[i];
@@ -213,6 +216,7 @@
 
     window.onload = function () {
         // get initial data
+        user_names = JSON.parse('{{ user_names | tojson | safe }}');
         const initialChartData = JSON.parse('{{ initial_chart_data | tojson | safe }}');
 
         // set initial values
@@ -290,6 +294,17 @@
                             fontSize: 20,
                             fontStyle: 'bold',
                             usePointStyle: true,
+                            filter : function (legendItem, cdata) {
+                                // update long labels
+                                let label = legendItem.text;
+                                for (let j = 0; j < user_names.length; j++) {
+                                    if (label.indexOf(user_names[j]) >= 0) {
+                                        legendItem.text = label.substring(0, label.indexOf('/')) + '/' + user_names[j];
+                                        break;
+                                    }
+                                }
+                                return true;
+                            }
                         }
                     },
                     plugins: {

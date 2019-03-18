@@ -125,6 +125,7 @@ def parse_config_file(config_file):
 
 # load server information
 endpoints = parse_config_file('./config.json')
+usernames = parse_config_file('./user_names.json')
 
 # create flask instance
 log = logging.getLogger('werkzeug')
@@ -181,6 +182,7 @@ def simple_homepage():
     initial_chart_data = collect_once()
     return render_template('index.html',
                            page_title='GPU-STATUS',
+                           user_names=usernames,
                            initial_chart_data=initial_chart_data)
 
 
