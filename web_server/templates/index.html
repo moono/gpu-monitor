@@ -297,9 +297,18 @@
                             filter : function (legendItem, cdata) {
                                 // update long labels
                                 let label = legendItem.text;
+                                let label_candidates = label.split(/[-_/]+/);
+                                let isFound = false;
                                 for (let j = 0; j < user_names.length; j++) {
-                                    if (label.indexOf(user_names[j]) >= 0) {
-                                        legendItem.text = label.substring(0, label.indexOf('/')) + '/' + user_names[j];
+                                    for (let k = 0; k < label_candidates.length; k++) {
+                                        if (label_candidates[k].indexOf(user_names[j]) === 0) {
+                                            legendItem.text = label.substring(0, label.indexOf('/')) + '/' + user_names[j];
+                                            isFound = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (isFound) {
                                         break;
                                     }
                                 }
