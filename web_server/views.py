@@ -11,7 +11,7 @@ def load_json_data(config_file):
     return config_dict
 
 
-DEBUG_OVERRIDE = False
+DEBUG_OVERRIDE = True
 GPU_TEST_DATA = load_json_data('./gpu_debug_data.json')
 
 # load server information

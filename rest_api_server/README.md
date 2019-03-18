@@ -50,7 +50,7 @@ $ sudo nvidia-smi --persistence-mode=1
 :~$ cd gpu-monitor/rest_api_server
 
 # run docker-compose
-:~/gpu-monitor/rest_api_server$ docker-compose up -d --build
+:~/gpu-monitor/rest_api_server$ docker-compose up -d
 ```
 
 # Test
