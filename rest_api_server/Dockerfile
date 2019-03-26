@@ -29,4 +29,5 @@ RUN pip install -r requirements.txt
 EXPOSE 3032
 
 # set commands
-CMD ["python", "simple_rest_api.py"]
+#CMD ["python", "simple_rest_api.py"]
+CMD ["flask", "run", "--host", "0.0.0.0", "--port", "3032"]
