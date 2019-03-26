@@ -3,5 +3,9 @@ services:
   web-server:
     build: .
     image: moono/gm-web-server:latest
+    environment:
+      - FLASK_APP=views.py
+      - LC_ALL=C.UTF-8
+      - LANG=C.UTF-8
     ports:
       - "3033:3033"

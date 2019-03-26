@@ -28,4 +28,5 @@ RUN pip install -r requirements.txt
 EXPOSE 3033
 
 # set commands
-CMD ["python", "views.py"]
+#CMD ["python", "views.py"]
+CMD ["flask", "run", "--host", "0.0.0.0", "--port", "3033"]

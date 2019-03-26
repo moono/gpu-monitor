@@ -1,4 +1,3 @@
-import os
 import json
 import logging
 import requests
@@ -55,8 +54,10 @@ def collect_all_gpu_servers():
     return jsonify(chart_data)
 
 
-if __name__ == "__main__":
-    app.debug = True
-    host = os.environ.get('IP', '0.0.0.0')
-    port = int(os.environ.get('PORT', 3033))
-    app.run(host=host, port=port)
+# if __name__ == "__main__":
+#     import os
+#
+#     app.debug = True
+#     host = os.environ.get('IP', '0.0.0.0')
+#     port = int(os.environ.get('PORT', 3033))
+#     app.run(host=host, port=port)
