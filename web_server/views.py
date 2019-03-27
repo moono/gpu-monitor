@@ -31,10 +31,12 @@ def collect_once():
     else:
         # get all data from database
         for host_name, info in endpoints.items():
-            r = requests.get('http://{:s}:{:s}/gpu_stat'.format(info['host'], info['port']))
-
-            chart_data = r.json()
-            chart_data_list.append((host_name, chart_data))
+            try:
+                r = requests.get('http://{:s}:{:s}/gpu_stat'.format(info['host'], info['port']))
+                chart_data = r.json()
+                chart_data_list.append((host_name, chart_data))
+            except requests.exceptions.RequestException as e:
+                pass
 
     return chart_data_list
 
