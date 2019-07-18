@@ -7,6 +7,7 @@ from nvidia_smi import run_nvidia_smi
 from information_organizer import reorganize_and_merge_info_chartjs
 
 
+logging.basicConfig()
 parsed_gpu_info = None
 
 
@@ -20,13 +21,13 @@ def sensor():
     return
 
 
+logging.getLogger('apscheduler').setLevel(logging.ERROR)
 sched_background = BackgroundScheduler(daemon=True)
 sched_background.add_job(sensor, 'interval', seconds=1)
 sched_background.start()
 
 
-log = logging.getLogger('werkzeug')
-log.setLevel(logging.ERROR)
+logging.getLogger('werkzeug').setLevel(logging.ERROR)
 app = Flask(__name__)
 api = Api(app)
 
