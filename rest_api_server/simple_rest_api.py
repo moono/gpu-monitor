@@ -7,7 +7,6 @@ from nvidia_smi import run_nvidia_smi
 from information_organizer import reorganize_and_merge_info_chartjs
 
 # logging settings
-logging.basicConfig()
 logging.getLogger('apscheduler').setLevel(logging.ERROR)
 logging.getLogger('werkzeug').setLevel(logging.ERROR)
 
