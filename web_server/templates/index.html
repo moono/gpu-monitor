@@ -8,6 +8,14 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <style>
+        body {
+            background-color: black;
+        }
+
+        div {
+            background-color: black;
+        }
+
         /* Adds some space */
         .top-buffer {
             margin-top:20px;
@@ -114,6 +122,15 @@
         user_names = JSON.parse('{{ user_names | tojson | safe }}');
         const initialChartData = JSON.parse('{{ initial_chart_data | tojson | safe }}');
 
+        // A plugin to draw the background color
+        Chart.plugins.register({
+            beforeDraw: function(chartInstance) {
+                var ctx = chartInstance.chart.ctx;
+                ctx.fillStyle = 'black';
+                ctx.fillRect(0, 0, chartInstance.chart.width, chartInstance.chart.height);
+            }
+        })
+
         // set initial values
         const charts = {};
         for (let i = 0; i < initialChartData.length; i++) {
@@ -127,7 +144,6 @@
             charts[host_name] = {};
             const bar_ctx = document.getElementById(barElementID).getContext('2d');
             charts[host_name]["bar"] = new Chart(bar_ctx, {
-                // type: 'horizontalBar',
                 type: 'bar',
                 data: bar_chart_data,
                 options: bar_chart_options
@@ -135,9 +151,7 @@
 
             const pie_ctx = document.getElementById(pieElementID).getContext('2d');
             charts[host_name]["pie"] = new Chart(pie_ctx, {
-                // type: 'polarArea',
                 type: 'doughnut',
-                // type: 'pie',
                 data: pie_chart_data,
                 options: pie_chart_options
             });

@@ -6,15 +6,21 @@ const bar_chart_options_scales = {
             //min: 0,
             stepSize: 10,
             fontStyle: 'bold',
+            // fontColor: 'white',
+            fontColor: 'rgba(255, 255, 255, 0.7)',
+            showLabelBackdrop: false
         },
         gridLines: {
-            offsetGridLines: true
+            offsetGridLines: true,
+            color: 'rgba(255, 255, 255, 0.2)'
         }
     }],
     xAxes: [{
         ticks: {
             fontSize: 18,
             fontStyle: 'bold',
+            // fontColor: 'white'
+            fontColor: 'rgba(255, 255, 255, 0.7)'
         }
     }]
 };
@@ -27,7 +33,9 @@ const bar_chart_options_legend = {
     position: 'bottom',
     fullWidth: true,
     labels: {
-        fontSize: 20
+        fontSize: 20,
+        // fontColor: 'white'
+        fontColor: 'rgba(255, 255, 255, 0.7)'
     }
 };
 

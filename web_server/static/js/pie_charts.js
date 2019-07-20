@@ -1,4 +1,19 @@
 const pieBGColors = [
+    'rgba(252, 161, 125, 0.2)',
+    'rgba(154, 52, 142, 0.2)',
+    'rgba(232, 219, 125, 0.2)',
+    'rgba(255, 159, 64, 0.2)',
+    'rgba(153, 102, 255, 0.2)',
+    'rgba(255, 99 132, 0.2)',
+    'rgba(75, 192, 192, 0.2)',
+    'rgba(255, 206, 86, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(249, 219, 189, 0.2)',
+    'rgba(218, 98, 125, 0.2)',
+    'rgba(85, 140, 140, 0.2)',
+];
+
+const pieBRColors = [
     'rgba(252, 161, 125, 1)',
     'rgba(154, 52, 142, 1)',
     'rgba(232, 219, 125, 1)',
@@ -23,6 +38,8 @@ const pie_chart_options_legend = {
     fullWidth: true,
     labels: {
         fontSize: 20,
+        // fontColor: 'white',
+        fontColor: 'rgba(255, 255, 255, 0.7)',
         fontStyle: 'bold',
         usePointStyle: true,
         filter : function (legendItem, cdata) {
@@ -58,14 +75,18 @@ const pie_chart_options_plugins = {
     labels: [
         {
           render: 'label',
-          fontColor: '#000',
+          // fontColor: '#000',
+          // fontColor: 'white',
+          fontColor: 'rgba(255, 255, 255, 0.7)',
           fontStyle: 'bold',
           arc: false,
           position: 'outside'
         },
         {
           render: 'percentage',
-          fontColor: '#000',
+          // fontColor: '#000',
+          // fontColor: 'white',
+          fontColor: 'rgba(255, 255, 255, 0.7)',
           fontStyle: 'bold',
           textShadow: true,
           position: 'deafult',
@@ -93,6 +114,7 @@ function createChartjsPieChartData (pie_chart_data, removeFreeMemory) {
 
     // set same color for same gpu index
     const background_color = [];
+    const border_color = [];
     for (let i = 0; i < labelsData.length; i++) {
         let label = labelsData[i];
         let index = 0;
@@ -103,6 +125,7 @@ function createChartjsPieChartData (pie_chart_data, removeFreeMemory) {
             }
         }
         background_color.push(pieBGColors[index]);
+        border_color.push(pieBRColors[index]);
     }
 
     // create chart.js data and return
@@ -111,7 +134,8 @@ function createChartjsPieChartData (pie_chart_data, removeFreeMemory) {
         datasets: [{
             label: labelsData,
             data: pointsData,
-            backgroundColor: background_color
+            backgroundColor: background_color,
+            borderColor: border_color
         }]
     };
 }
