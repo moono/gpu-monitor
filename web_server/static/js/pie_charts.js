@@ -28,77 +28,62 @@ const pieBRColors = [
     'rgba(85, 140, 140, 1)',
 ];
 
-const pie_chart_options_tooltips = {
-    enabled: false
-};
+const pie_chart_options = {
+    tooltips: {
+        enabled: false
+    },
+    legend: {
+        position: 'left',
+        fullWidth: true,
+        labels: {
+            fontSize: 20,
+            fontStyle: 'bold',
+            usePointStyle: true,
+            filter : function (legendItem, cdata) {
+                // update long labels
+                const maxLabelLength = 15;
 
-const maxLabelLength = 15;
-const pie_chart_options_legend = {
-    position: 'left',
-    fullWidth: true,
-    labels: {
-        fontSize: 20,
-        // fontColor: 'white',
-        fontColor: 'rgba(255, 255, 255, 0.7)',
-        fontStyle: 'bold',
-        usePointStyle: true,
-        filter : function (legendItem, cdata) {
-            // update long labels
-            let label = legendItem.text;
-            let label_candidates = label.split(/[-_/]+/);
-            let isFound = false;
-            for (let j = 0; j < user_names.length; j++) {
-                for (let k = 0; k < label_candidates.length; k++) {
-                    if (label_candidates[k].indexOf(user_names[j]) === 0) {
-                        legendItem.text = label.substring(0, label.indexOf('/')) + '/' + user_names[j];
-                        isFound = true;
+                let label = legendItem.text;
+                let label_candidates = label.split(/[-_/]+/);
+                let isFound = false;
+                for (let j = 0; j < user_names.length; j++) {
+                    for (let k = 0; k < label_candidates.length; k++) {
+                        if (label_candidates[k].indexOf(user_names[j]) === 0) {
+                            legendItem.text = label.substring(0, label.indexOf('/')) + '/' + user_names[j];
+                            isFound = true;
+                            break;
+                        }
+                    }
+
+                    if (isFound) {
                         break;
                     }
                 }
 
-                if (isFound) {
-                    break;
+                // check if not found appropriate string (user_name) to filter,
+                // cut string into fixed length
+                if (!isFound) {
+                    legendItem.text = label.slice(0, maxLabelLength);
                 }
+                return true;
             }
-
-            // check if not found appropriate string (user_name) to filter,
-            // cut string into fixed length
-            if (!isFound) {
-                legendItem.text = label.slice(0, maxLabelLength);
-            }
-            return true;
         }
-    }
-};
-
-const pie_chart_options_plugins = {
-    labels: [
-        {
-          render: 'label',
-          // fontColor: '#000',
-          // fontColor: 'white',
-          fontColor: 'rgba(255, 255, 255, 0.7)',
-          fontStyle: 'bold',
-          arc: false,
-          position: 'outside'
+    },
+    plugins: {
+        labels: [{
+            render: 'label',
+            fontStyle: 'bold',
+            arc: false,
+            position: 'outside'
         },
         {
-          render: 'percentage',
-          // fontColor: '#000',
-          // fontColor: 'white',
-          fontColor: 'rgba(255, 255, 255, 0.7)',
-          fontStyle: 'bold',
-          textShadow: true,
-          position: 'deafult',
-          precision: 2
-        }
-    ]
-};
-
-const pie_chart_options = {
-    tooltips: pie_chart_options_tooltips,
-    legend: pie_chart_options_legend,
-    plugins: pie_chart_options_plugins
+            render: 'percentage',
+            fontStyle: 'bold',
+            textShadow: true,
+            position: 'deafult',
+            precision: 2
+        }]
+    }
 }
 
 

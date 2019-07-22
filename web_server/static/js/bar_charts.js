@@ -1,60 +1,43 @@
-const bar_chart_options_scales = {
-    yAxes: [{
-        ticks: {
-            beginAtZero: true,
-            max: 100,
-            //min: 0,
-            stepSize: 10,
-            fontStyle: 'bold',
-            // fontColor: 'white',
-            fontColor: 'rgba(255, 255, 255, 0.7)',
-            showLabelBackdrop: false
-        },
-        gridLines: {
-            offsetGridLines: true,
-            color: 'rgba(255, 255, 255, 0.2)'
+const bar_chart_options = {
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true,
+                max: 100,
+                stepSize: 10,
+                fontStyle: 'bold',
+                // fontColor: 'black',
+                showLabelBackdrop: false
+            },
+            gridLines: {
+                offsetGridLines: true,
+                color: 'grey'
+            }
+        }],
+        xAxes: [{
+            ticks: {
+                fontSize: 18,
+                fontStyle: 'bold',
+            }
+        }]
+    },
+    tooltips: {
+        enabled: false
+    },
+    legend: {
+        position: 'bottom',
+        fullWidth: true,
+        labels: {
+            fontSize: 20
         }
-    }],
-    xAxes: [{
-        ticks: {
-            fontSize: 18,
-            fontStyle: 'bold',
-            // fontColor: 'white'
-            fontColor: 'rgba(255, 255, 255, 0.7)'
-        }
-    }]
-};
-
-const bar_chart_options_tooltips = {
-    enabled: false
-};
-
-const bar_chart_options_legend = {
-    position: 'bottom',
-    fullWidth: true,
-    labels: {
-        fontSize: 20,
-        // fontColor: 'white'
-        fontColor: 'rgba(255, 255, 255, 0.7)'
-    }
-};
-
-const bar_chart_options_plugins = {
-    labels: [
-        {
+    },
+    plugins: {
+        labels: [{
             render: 'value',
             fontStyle: 'bold'
-        }
-    ]
-};
-
-const bar_chart_options = {
-    scales: bar_chart_options_scales,
-    tooltips: bar_chart_options_tooltips,
-    legend: bar_chart_options_legend,
-    plugins: bar_chart_options_plugins
+        }]
+    }
 }
-
 
 function createChartjsBarChartData (bar_chart_data) {
     const m_background_color = [];
