@@ -43,18 +43,20 @@ const pie_chart_options = {
                 // update long labels
                 const maxLabelLength = 15;
 
+                // get current display text
                 let label = legendItem.text;
+
+                // split label into list of strings with '-', '_', '/'
                 let label_candidates = label.split(/[-_/]+/);
                 let isFound = false;
-                for (let j = 0; j < user_names.length; j++) {
-                    for (let k = 0; k < label_candidates.length; k++) {
-                        if (label_candidates[k].indexOf(user_names[j]) === 0) {
-                            legendItem.text = label.substring(0, label.indexOf('/')) + '/' + user_names[j];
+                for (let i = 0; i < label_candidates.length; i++) {
+                    for (let key in user_names) {
+                        if (label_candidates[i] === key) {
+                            legendItem.text = label.substring(0, label.indexOf('/')) + '/' + user_names[key];
                             isFound = true;
                             break;
                         }
                     }
-
                     if (isFound) {
                         break;
                     }
